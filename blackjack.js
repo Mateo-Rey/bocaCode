@@ -9,16 +9,20 @@ let currentCard = "";
 let counter = 0
 stringOfUrCards = []
 let urHand = {}
-function sum(urCrdValues[0], n) {
-  if (n <=0) {
-      return 0;
-  } else {
-      return sum(arr,n-1) + arr[n -1]
+let arrofValues = []
+let sumOfCards = 0
+let finalArray = []
+function sum(array) {
+  for (let i = 0; i < array.length; i++) {
+    sumOfCards += array[i]
   }
+  return sumOfCards;
+  
 }
 
+
 function symbolRandom(num) {
- 
+ let tempArray = []
   for (let i = 0; i < num; i++) {
     currentCard = cards[Math.floor(Math.random() * 4)]
     cardVal = values[Math.floor(Math.random()*13)]
@@ -26,22 +30,27 @@ function symbolRandom(num) {
     urHand.suite = `${currentCard}`
     urHand.value = `${cardVal}`
     urCrdValues.push(urHand.value)
-   
-   
+    
   };
-  console.log(urCrdValues)
+  urCrdValues.forEach(str => {
+    tempArray.push(Number(str));
+  });
+  arrofValues = tempArray
 }//Gives you two cards and tells you as well as placing them into your card values
 symbolRandom(2)
+console.log(arrofValues)
 function cardCount() {
-if (sum(urCrdValues, 2) > 21 && urCrdValues.includes(11)) {
-for (let i = 0; i < urCrdValues.length; i++) {
-  if (urCrdValues[i] === 11) {
-    urCrdValues.splice(i,-1)
-    urCrdValues.push(1)
+  sum(arrofValues)
+if (sumOfCards > 21 && arrofValues.includes(11)) {
+for (let i = 0; i < arrofValues.length; i++) {
+  if (arrofValues[i] === 11) {
+    arrofValues.splice(i,-1)
+    arrofValues.push(1)
     return ('Your Ace has changed in value. It is now a one');
   }
 }
-} else if (sum(urCrdValues, 2) < 21) {
+} else if (sumOfCards < 21) {
+
   const readline = require("readline");
 
 const rl = readline.createInterface({
@@ -51,25 +60,31 @@ const rl = readline.createInterface({
   
     if (answer == 'Hit') {
       symbolRandom(1)
-      console.log(urCrdValues);
+      console.log(arrofValues);
+      arrofValues = finalArray
     } else if (answer == 'Stay') {
-    console.log(urCrdValues);
+      console.log(arrofValues);
     }
+    
+    
+    rl.close();
+  });
+  return (` You have a total card value of ${sumOfCards}.`)
   
-  
-  rl.close();
-});
-  return (` You have a total card value of ${sum(urCrdValues, 2)}.`)
-  
-} else if (sum(urCrdValues, 2) == 21) {
-  return ('21! You win!');
-}
- else if (sum(urCrdValues, 2) > 21) {
-  return('Over 21! You lose')
+
 }
 }
+cardCount()
+function finalResult () {
+  if (sum(finalArray) < 21) {
+    
 
+  } else if (sum(finalArray) == 21) {
+    return ('21! You win!');
+  } else if (sum(finalArray) > 21) {
+    return('Over 21! You lose')
 
-
-
-
+}
+}
+finalResult()
+console.log(symbolRandom(1))
